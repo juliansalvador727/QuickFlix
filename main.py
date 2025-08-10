@@ -1,5 +1,8 @@
-import os
 from pathlib import Path
+from PIL import Image
+from PIL.ExifTags import TAGS
+from datetime import datetime
+
 
 existing_file_names = [
     "DSCN0003.JPG",
@@ -8,22 +11,42 @@ existing_file_names = [
 ]
 
 
-# use path class, select the appropriate folder
 folder = Path("images")
 
-# .glob method to find pathnames matching specified pattern (.jpg)
-files = list(folder.glob("*.jpg"))
+image_paths = list({file for ext in ('*.jpg', '*.JPG') for file in folder.glob(ext)})
 
-# print(files)
-# files becomes a list of files with [WindowsPath('images/YOUR_IMAGE_HERE.jpg'), WindowsPath('images/YOUR_IMAGE_HERE2.jpg'), etc...]
+new_file_names = []
 
-file_count = len(files)
+def unique_path(folder, base_name, suffix):
+    new_name = f"{base_name}{suffix}"
+    candidate = folder / new_name
+    count = 1
+    while candidate.exists():
+        candidate = folder / f"{base_name}_{count}{suffix}"
+        count += 1
+    return candidate
 
-print(f"there are {file_count} pictures in this folder.")
+for img_path in image_paths:
+    with Image.open(img_path) as image:
+        exif_data = image._getexif()
+        date_taken = None
+        
+        if exif_data:
+            for tag_id, value in exif_data.items():
+                if tag_id == 36867:  # DateTimeOriginal tag
+                    dt = datetime.strptime(value, "%Y:%m:%d %H:%M:%S")
+                    date_taken = dt.strftime("%d%b%Y")
+                    break
+        
+        if date_taken:
+            new_file_names.append(date_taken)
+        else:
+            new_file_names.append("unknown_date")
 
-# rename files
-for i, file in enumerate(files, start=1):
-    new_name = f"foo{i}{file.suffix}"
-    new_path = file.parent / new_name
-    print(f"Renaming {file.name} to {new_name}")
+
+for i, file in enumerate(image_paths, start=1):
+    base_name = new_file_names[i-1]
+    suffix = file.suffix
+    new_path = unique_path(file.parent, base_name, suffix)
+    print(f"Renaming {file.name} to {new_path.name}, {i}")
     file.rename(new_path)
