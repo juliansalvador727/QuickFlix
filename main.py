@@ -11,18 +11,18 @@ existing_file_names = [
 ]
 
 
-folder = Path("images")
+FOLDER = Path("images")
 
-image_paths = list({file for ext in ('*.jpg', '*.JPG') for file in folder.glob(ext)})
+image_paths = list({file for ext in ('*.jpg', '*.JPG') for file in FOLDER.glob(ext)})
 
 new_file_names = []
 
-def unique_path(folder, base_name, suffix):
+def unique_path(FOLDER, base_name, suffix):
     new_name = f"{base_name}{suffix}"
-    candidate = folder / new_name
+    candidate = FOLDER / new_name
     count = 1
     while candidate.exists():
-        candidate = folder / f"{base_name}_{count}{suffix}"
+        candidate = FOLDER / f"{base_name}_{count}{suffix}"
         count += 1
     return candidate
 
@@ -43,10 +43,21 @@ for img_path in image_paths:
         else:
             new_file_names.append("unknown_date")
 
+name_counts = {}
 
-for i, file in enumerate(image_paths, start=1):
-    base_name = new_file_names[i-1]
-    suffix = file.suffix
-    new_path = unique_path(file.parent, base_name, suffix)
-    print(f"Renaming {file.name} to {new_path.name}, {i}")
+final_names = []
+
+for date_str in new_file_names:
+    count = name_counts.get(date_str, 0)
+    if count == 0:
+        final_name = date_str
+    else:
+        final_name = f"{date_str}_{count}"
+    name_counts[date_str] = count + 1
+    final_names.append(final_name)
+
+for file, base_name in zip(image_paths, final_names):
+    new_name = f"{base_name}{file.suffix}"
+    new_path = file.parent / new_name
+    print(f"Renaming {file.name} to {new_name}")
     file.rename(new_path)
