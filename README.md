@@ -1,75 +1,82 @@
-📸 Photo Renamer
+# 📸 Quick lix
 
-A simple Python utility that renames JPEG images based on their EXIF metadata (date taken).
-If no EXIF date is found, the file is renamed with unknown_date.
-Duplicate dates are handled automatically by appending suffixes like \_1, \_2, etc.
+A simple Python utility that renames JPEG images based on their **EXIF metadata** (date taken).  
+If no EXIF date is found, the file is renamed with `unknown_date`.  
+Duplicate dates are handled automatically by appending suffixes like `_1`, `_2`, etc.
 
-✨ Features
+---
 
-Extracts the Date Taken field (DateTimeOriginal) from EXIF metadata.
+## ✨ Features
 
-Renames files into human-readable format like 12Aug2023.jpg.
+- Extracts the **Date Taken** field (`DateTimeOriginal`) from EXIF metadata.
+- Renames files into human-readable format like `12Aug2023.jpg`.
+- Handles duplicates with numbered suffixes.
+- Falls back to `unknown_date` if no EXIF data is available.
+- Works on `.jpg` and `.JPG` files.
 
-Handles duplicates with numbered suffixes.
+---
 
-Falls back to unknown_date if no EXIF data is available.
-
-Works on .jpg and .JPG files.
-
-🚀 Installation
+## 🚀 Installation
 
 Clone the repo and install dependencies:
 
+```bash
 git clone https://github.com/yourusername/photo-renamer.git
 cd photo-renamer
 pip install -r requirements.txt
+```
 
-🖼️ Usage
+---
 
-Place your photos in the images/ folder (or specify another directory).
+## 🖼️ Usage
+
+Place your photos in the `images/` folder (or specify another directory).
 
 Run the script:
 
+```bash
 python src/rename_images.py --input ./images
+```
 
 Example output:
 
+```
 Renaming IMG_0012.JPG to 12Aug2023.jpg
 Renaming IMG_0013.JPG to 12Aug2023_1.jpg
 Renaming IMG_0014.JPG to unknown_date.jpg
+```
 
-📂 Project Structure
+---
+
+## 📂 Project Structure
+
+```
 photo-renamer/
 ├── src/
-│ └── rename_images.py # main script
-├── tests/ # optional unit tests
-├── sample_images/ # small example JPGs
+│   └── rename_images.py      # main script
+├── tests/                    # optional unit tests
+├── sample_images/            # small example JPGs
 ├── requirements.txt
 ├── .gitignore
 ├── LICENSE
 └── README.md
+```
 
-🛠️ Requirements
+---
 
-Python 3.9+
+## 🛠️ Requirements
 
-Pillow
+- Python 3.9+
+- [Pillow](https://pypi.org/project/Pillow/)
 
 Install with:
 
+```bash
 pip install -r requirements.txt
+```
 
-📄 License
+---
 
-This project is licensed under the MIT License
-.
+## 📄 License
 
-👉 This style shows you know how to:
-
-Write clear instructions.
-
-Document dependencies.
-
-Show off professional repo structure.
-
-Would you like me to also refactor your main.py into rename_images.py with argparse + functions + type hints, so your README’s usage example actually works right away? That’ll make the repo completely plug-and-play.
+This project is licensed under the [MIT License](LICENSE).
