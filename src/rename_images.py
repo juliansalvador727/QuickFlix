@@ -1,3 +1,4 @@
+# main.py
 from pathlib import Path
 from PIL import Image
 from PIL.ExifTags import TAGS

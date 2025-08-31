@@ -1,4 +1,4 @@
-# 📸 Quick lix
+# 📸 QuickFlix
 
 A simple Python utility that renames JPEG images based on their **EXIF metadata** (date taken).  
 If no EXIF date is found, the file is renamed with `unknown_date`.  
