@@ -21,7 +21,7 @@ Duplicate dates are handled automatically by appending suffixes like `_1`, `_2`,
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/photo-renamer.git
+git clone https://github.com/yourusername/quickflix.git
 cd photo-renamer
 pip install -r requirements.txt
 ```
