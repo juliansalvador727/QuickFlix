@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import *
 from tkinter import filedialog, messagebox
 from pathlib import Path
 
@@ -23,14 +23,14 @@ def rename_files(image_paths, final_names):
         file.rename(new_path)
     return len(image_paths)
 
-
-# --- GUI Part ---
 def run_gui():
-    root = tk.Tk()
+    root = Tk()
     root.title("Image Renamer")
 
-    label = tk.Label(root, text="Choose a folder of images")
+    label = Label(root, text="Select a folder to rename")
     label.pack(pady=10)
+
+    images = []
 
     def choose_folder():
         folder_selected = filedialog.askdirectory()
@@ -43,12 +43,18 @@ def run_gui():
             messagebox.showinfo("No Images", "No JPG images found in that folder.")
             return
 
+        
+
+    def change_filename():
         new_names = generate_new_names(images)
         count = rename_files(images, new_names)
         messagebox.showinfo("Success", f"Renamed {count} images.")
 
-    button = tk.Button(root, text="Select Folder", command=choose_folder)
-    button.pack(pady=20)
+
+    btn_choose_folder = Button(root, text="Choose Folder", command=choose_folder)
+    btn_change_filename = Button(root, text="Rename Files", command=change_filename)
+    btn_choose_folder.pack(pady=20)
+    btn_change_filename.pack(pady=20)
 
     root.mainloop()
 
